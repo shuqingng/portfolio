@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Data Scientist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d1a;
+      --surface:   #14142a;
+      --card:      #1a1a35;
+      --border:    #2a2a4a;
+      --accent:    #e8b86d;
+      --accent-dim:#b8904a;
+      --text:      #e2e2f0;
+      --muted:     #7a7a9a;
+      --highlight: #ffffff;
+      --serif:     'Playfair Display', Georgia, serif;
+      --sans:      'Inter', system-ui, sans-serif;
+      --mono:      'JetBrains Mono', monospace;
+      --radius:    8px;
+      --transition: 0.3s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--highlight); }
+
+    section { padding: 100px 0; }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      color: var(--highlight);
+      margin-bottom: 16px;
+    }
+
+    .section-divider {
+      width: 48px;
+      height: 2px;
+      background: var(--accent);
+      margin-bottom: 48px;
+    }
+
+    /* ─── Navigation ─────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      transition: background var(--transition), padding var(--transition), border-bottom var(--transition);
+    }
+
+    nav.scrolled {
+      background: rgba(13, 13, 26, 0.95);
+      backdrop-filter: blur(12px);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--highlight);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ─── Hero ───────────────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 0;
+    }
+
+    /* Subtle grid background */
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.25;
+    }
+
+    /* Radial glow */
+    #hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      left: -10%;
+      width: 60%;
+      height: 80%;
+      background: radial-gradient(ellipse, rgba(232, 184, 109, 0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-greeting {
+      font-family: var(--mono);
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 20px;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      font-weight: 700;
+      color: var(--highlight);
+      line-height: 1.05;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 400;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      max-width: 520px;
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 44px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 2px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ─── Skills ─────────────────────────────────────────────────── */
+    #skills { background: var(--surface); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-category {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+
+    .skill-category:hover {
+      border-color: var(--accent-dim);
+      transform: translateY(-3px);
+    }
+
+    .skill-category-title {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .skill-tag {
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 100px;
+      background: rgba(232, 184, 109, 0.08);
+      border: 1px solid rgba(232, 184, 109, 0.2);
+      color: var(--text);
+    }
+
+    /* ─── Projects ───────────────────────────────────────────────── */
+    #projects { background: var(--bg); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-dim);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .project-icon {
+      font-size: 1.6rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 12px;
+    }
+
+    .project-links a {
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: color var(--transition);
+    }
+
+    .project-links a:hover { color: var(--accent); }
+
+    .project-name {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--highlight);
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .project-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .stack-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      background: rgba(232, 184, 109, 0.06);
+      border: 1px solid rgba(232, 184, 109, 0.15);
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+
+    /* ─── Experience ─────────────────────────────────────────────── */
+    #experience { background: var(--surface); }
+
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 52px;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -38px;
+      top: 6px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(232, 184, 109, 0.2);
+    }
+
+    .timeline-meta {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .timeline-role {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--highlight);
+      margin-bottom: 2px;
+    }
+
+    .timeline-company {
+      font-size: 0.9rem;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .timeline-desc li {
+      list-style: none;
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .timeline-desc li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--accent-dim);
+    }
+
+    /* ─── Contact ────────────────────────────────────────────────── */
+    #contact { background: var(--bg); text-align: center; }
+
+    .contact-tagline {
+      font-family: var(--serif);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      color: var(--highlight);
+      margin-bottom: 16px;
+    }
+
+    .contact-sub {
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 40px;
+      font-size: 0.95rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all var(--transition);
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(232, 184, 109, 0.05);
+    }
+
+    /* ─── Footer ─────────────────────────────────────────────────── */
+    footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      section { padding: 72px 0; }
+      .hero-cta { flex-direction: column; align-items: flex-start; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ────────────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="container">
+      <span class="nav-logo">Y<span>.</span>N</span>
+      <ul class="nav-links">
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────────── -->
+  <section id="hero">
+    <div class="container hero-content">
+      <p class="hero-greeting">// hello, world</p>
+      <h1 class="hero-name">Your Name</h1>
+      <p class="hero-title">Data Scientist at <em>Your Company</em></p>
+      <p class="hero-bio">
+        I turn messy data into actionable insight. I work at the intersection of
+        machine learning, statistical analysis, and data engineering — building
+        models and pipelines that drive real decisions.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View my work</a>
+        <a href="#contact" class="btn btn-secondary">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skills ────────────────────────────────────────────────── -->
+  <section id="skills">
+    <div class="container">
+      <p class="section-label">// expertise</p>
+      <h2 class="section-title">Skills & Tools</h2>
+      <div class="section-divider"></div>
+      <div class="skills-grid">
+
+        <div class="skill-category">
+          <p class="skill-category-title">Languages</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">SQL</span>
+            <span class="skill-tag">R</span>
+            <span class="skill-tag">Bash</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-category-title">ML / AI</p>
+          <div class="skill-tags">
+            <span class="skill-tag">scikit-learn</span>
+            <span class="skill-tag">PyTorch</span>
+            <span class="skill-tag">XGBoost</span>
+            <span class="skill-tag">Hugging Face</span>
+            <span class="skill-tag">LangChain</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-category-title">Data & Analytics</p>
+          <div class="skill-tags">
+            <span class="skill-tag">Pandas</span>
+            <span class="skill-tag">Spark</span>
+            <span class="skill-tag">dbt</span>
+            <span class="skill-tag">Airflow</span>
+            <span class="skill-tag">Tableau</span>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <p class="skill-category-title">Cloud & Infra</p>
+          <div class="skill-tags">
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">GCP</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Kubernetes</span>
+            <span class="skill-tag">MLflow</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Projects ──────────────────────────────────────────────── -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">// portfolio</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="section-divider"></div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">📊</span>
+            <div class="project-links">
+              <a href="#" title="GitHub">GitHub ↗</a>
+              <a href="#" title="Live demo">Demo ↗</a>
+            </div>
+          </div>
+          <h3 class="project-name">Churn Prediction Model</h3>
+          <p class="project-desc">
+            End-to-end ML pipeline predicting customer churn with 89% AUC.
+            Includes automated feature engineering, hyperparameter tuning, and
+            a FastAPI serving layer deployed on AWS ECS.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">XGBoost</span>
+            <span class="stack-tag">FastAPI</span>
+            <span class="stack-tag">AWS</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">🔍</span>
+            <div class="project-links">
+              <a href="#" title="GitHub">GitHub ↗</a>
+            </div>
+          </div>
+          <h3 class="project-name">Semantic Search Engine</h3>
+          <p class="project-desc">
+            Internal knowledge-base search tool using sentence transformers and
+            FAISS for dense retrieval. Reduced average search time by 60% vs.
+            keyword matching.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Python</span>
+            <span class="stack-tag">FAISS</span>
+            <span class="stack-tag">Hugging Face</span>
+            <span class="stack-tag">Docker</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <span class="project-icon">📈</span>
+            <div class="project-links">
+              <a href="#" title="GitHub">GitHub ↗</a>
+              <a href="#" title="Live demo">Demo ↗</a>
+            </div>
+          </div>
+          <h3 class="project-name">Data Pipeline Dashboard</h3>
+          <p class="project-desc">
+            Real-time observability dashboard for Airflow DAGs and dbt models.
+            Tracks SLA breaches, data freshness, and row-count anomalies across
+            50+ tables.
+          </p>
+          <div class="project-stack">
+            <span class="stack-tag">Airflow</span>
+            <span class="stack-tag">dbt</span>
+            <span class="stack-tag">Streamlit</span>
+            <span class="stack-tag">BigQuery</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Experience ────────────────────────────────────────────── -->
+  <section id="experience">
+    <div class="container">
+      <p class="section-label">// career</p>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-divider"></div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-meta">2023 — Present</p>
+          <p class="timeline-role">Senior Data Scientist</p>
+          <p class="timeline-company">Your Company · Full-time</p>
+          <ul class="timeline-desc">
+            <li>Built and shipped ML models impacting X million users</li>
+            <li>Led a team of N data scientists on the recommendations platform</li>
+            <li>Reduced model inference latency by 40% through quantisation and caching</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-meta">2021 — 2023</p>
+          <p class="timeline-role">Data Scientist</p>
+          <p class="timeline-company">Previous Company · Full-time</p>
+          <ul class="timeline-desc">
+            <li>Designed A/B testing framework used across 5 product teams</li>
+            <li>Migrated batch pipelines from Hadoop to Spark, cutting runtime by 70%</li>
+            <li>Partnered with product to define north-star metrics and dashboards</li>
+          </ul>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <p class="timeline-meta">2020 — 2021</p>
+          <p class="timeline-role">Data Analyst / Intern</p>
+          <p class="timeline-company">Early Company · Internship → Full-time</p>
+          <ul class="timeline-desc">
+            <li>Automated weekly reporting, saving 8 hours of analyst time per week</li>
+            <li>Developed customer segmentation model using k-means clustering</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact ────────────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="container">
+      <p class="section-label">// connect</p>
+      <p class="contact-tagline">Let's work together</p>
+      <p class="contact-sub">
+        Open to interesting problems, collaborations, and conversations about
+        data, ML, or anything in between.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:you@example.com" class="contact-link">
+          ✉ Email
+        </a>
+        <a href="https://linkedin.com/in/yourhandle" class="contact-link" target="_blank" rel="noopener">
+          in LinkedIn
+        </a>
+        <a href="https://github.com/shuqingng" class="contact-link" target="_blank" rel="noopener">
+          ⌥ GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ─────────────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Your Name · Built with HTML &amp; CSS</p>
+    </div>
+  </footer>
+
+  <!-- ── Scripts ────────────────────────────────────────────────── -->
+  <script>
+    // Sticky nav style on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+  </script>
+
+</body>
+</html>
